@@ -7,12 +7,13 @@ categories: [analysis, March Madness]
 
 ```{r}
 library(tidyverse)
+library(here)
 ```
 
 
 ```{r}
-DEV_March_Madness
-DEV_March_Madness$Rebounding
+
+DEV_March_Madness <- read_csv("/Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog/posts/Post1/archive/DEV _ March Madness.csv")
 ```
 
 ```{r}

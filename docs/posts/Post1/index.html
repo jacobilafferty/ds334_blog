@@ -9,7 +9,7 @@
 <meta name="author" content="Jacobi Lafferty">
 <meta name="dcterms.date" content="2026-02-02">
 
-<title>What makes a Cinderella Team – ds334_blog</title>
+<title>How to Choose Your Cinderella Team – ds334_blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -154,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">What makes a Cinderella Team</h1>
+      <h1 class="title">How to Choose Your Cinderella Team</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">analysis</div>
                 <div class="quarto-category">March Madness</div>
@@ -213,8 +213,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>here() starts at /Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog</code></pre>
 </div>
 </div>
+<p>#Introduction For this Post, I’m exploring March Madness Cinderella teams. I’m hoping to be able to answer the question of how to successfully pick your Cinderella team when you are filling out your bracket. While it is true that it is mostly luck, and who gets hot at the right time, I’m hoping there are some underlying stats that will at least give us some guidance on what makes a good Cinderella team.</p>
+<p>The dataset I’m working with is from kaggle called DEV _ MarchMadness.csv. You can find it here: https://www.kaggle.com/datasets/jonathanpilafas/2024-march-madness-statistical-analysis. It contains metrics for 8315 NCAA teams from 2002-2025. To answer my question, I needed to come up with some parameter’s for what is considered a Cinderella team. I decided to have only 9 or above seeds in the tournament, and you had to make the final four. Originally I wanted to do elite 8 to allow for more teams to meet the criteria, but this dataset didn’t have that. I would love to explore that further in the future.</p>
+<p>I wanted to examine both offense and defense to help answer my question. I chose 4 statistics from both sides of the ball, and hopefully a couple from each will prove to be significant. Offensively, I went with 3pt%, pace, TO%, and offensive rebounding. Defensively, I went with Foul rate, Opponent 3pt%, steal rate, and possession length. I thought out of the 165 statistics this data set offered, these 8 combined to cover most of the important aspects of the game.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DEV_March_Madness <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog/posts/Post1/archive/DEV _ March Madness.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in The data </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DEV_March_Madness <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog/posts/Post1/archive/DEV _ March Madness.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 8315 Columns: 165
 ── Column specification ────────────────────────────────────────────────────────
@@ -227,10 +231,8 @@ dbl (151): Season, Adjusted Temo, Adjusted Tempo Rank, Raw Tempo, Raw Tempo ...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean the Data </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># make seed numeric</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>DEV_March_Madness <span class="ot">&lt;-</span> DEV_March_Madness <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Seed =</span> <span class="fu">as.numeric</span>(Seed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make the seed variable numeric</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DEV_March_Madness <span class="ot">&lt;-</span> DEV_March_Madness <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Seed =</span> <span class="fu">as.numeric</span>(Seed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `mutate()`.
 ℹ In argument: `Seed = as.numeric(Seed)`.
@@ -243,19 +245,19 @@ Caused by warning:
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>         Seed <span class="sc">&gt;=</span> <span class="dv">9</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>         )</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create a cinderella variable</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create a Cinderella variable</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>DEV_March_Madness <span class="ot">&lt;-</span> DEV_March_Madness <span class="sc">|&gt;</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Cinderella =</span> <span class="fu">if_else</span>(<span class="st">`</span><span class="at">Final Four?</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="compare-offense-and-defense" class="level1">
-<h1>compare offense and defense</h1>
+<section id="compare-offensive-and-defensive-efficiency" class="level1">
+<h1>Compare offensive and defensive efficiency</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot comparing offense for Cinderella vs not Cinderella</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot comparing offensive efficiency for Cinderella vs not Cinderella</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DEV_March_Madness, <span class="fu">aes</span>(<span class="at">x =</span> Cinderella, <span class="at">y =</span> AdjOE, <span class="at">fill =</span> Cinderella)) <span class="sc">+</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Offensive Efficiency"</span>, <span class="at">subtitle =</span> <span class="st">"Points scored per 100 possesions"</span>, <span class="at">x =</span> <span class="st">"Cinderella Team"</span>, <span class="at">y =</span> <span class="st">"TO %"</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Offensive Efficiency"</span>, <span class="at">subtitle =</span> <span class="st">"Points scored per 100 possesions"</span>, <span class="at">x =</span> <span class="st">"Cinderella Team"</span>, <span class="at">y =</span> <span class="st">"Pts"</span>) <span class="sc">+</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"darkorange1"</span>, <span class="st">"No"</span> <span class="ot">=</span> <span class="st">"darkgrey"</span>)) <span class="sc">+</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -267,12 +269,12 @@ Caused by warning:
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot comparing defense for Cinderella vs not Cinderella</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot comparing defensive efficiency for Cinderella vs not Cinderella</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DEV_March_Madness, <span class="fu">aes</span>(<span class="at">x =</span> Cinderella, <span class="at">y =</span> AdjDE, <span class="at">fill =</span> Cinderella)) <span class="sc">+</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Defensive Efficiency"</span>, <span class="at">subtitle =</span> <span class="st">"Points allowed per 100 possesions"</span>, <span class="at">x =</span> <span class="st">"Cinderella Team"</span>, <span class="at">y =</span> <span class="st">"TO %"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Defensive Efficiency"</span>, <span class="at">subtitle =</span> <span class="st">"Points allowed per 100 possesions"</span>, <span class="at">x =</span> <span class="st">"Cinderella Team"</span>, <span class="at">y =</span> <span class="st">"Pts"</span>) <span class="sc">+</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"darkorange1"</span>, <span class="st">"No"</span> <span class="ot">=</span> <span class="st">"darkgrey"</span>)) <span class="sc">+</span></span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">

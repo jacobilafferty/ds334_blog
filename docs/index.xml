@@ -12,7 +12,7 @@
 <generator>quarto-1.8.25</generator>
 <lastBuildDate>Mon, 02 Feb 2026 05:00:00 GMT</lastBuildDate>
 <item>
-  <title>What makes a Cinderella Team</title>
+  <title>How to Choose Your Cinderella Team</title>
   <dc:creator>Jacobi Lafferty</dc:creator>
   <link>https://your-website-url.example.com/posts/Post1/</link>
   <description><![CDATA[ 
@@ -44,8 +44,14 @@ font-style: inherit;">library</span>(here)</span></code></pre></div></div>
 <pre><code>here() starts at /Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog</code></pre>
 </div>
 </div>
+<p>#Introduction For this Post, I’m exploring March Madness Cinderella teams. I’m hoping to be able to answer the question of how to successfully pick your Cinderella team when you are filling out your bracket. While it is true that it is mostly luck, and who gets hot at the right time, I’m hoping there are some underlying stats that will at least give us some guidance on what makes a good Cinderella team.</p>
+<p>The dataset I’m working with is from kaggle called DEV _ MarchMadness.csv. You can find it here: https://www.kaggle.com/datasets/jonathanpilafas/2024-march-madness-statistical-analysis. It contains metrics for 8315 NCAA teams from 2002-2025. To answer my question, I needed to come up with some parameter’s for what is considered a Cinderella team. I decided to have only 9 or above seeds in the tournament, and you had to make the final four. Originally I wanted to do elite 8 to allow for more teams to meet the criteria, but this dataset didn’t have that. I would love to explore that further in the future.</p>
+<p>I wanted to examine both offense and defense to help answer my question. I chose 4 statistics from both sides of the ball, and hopefully a couple from each will prove to be significant. Offensively, I went with 3pt%, pace, TO%, and offensive rebounding. Defensively, I went with Foul rate, Opponent 3pt%, steal rate, and possession length. I thought out of the 165 statistics this data set offered, these 8 combined to cover most of the important aspects of the game.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">DEV_March_Madness <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Read in The data </span></span>
+<span id="cb5-2">DEV_March_Madness <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -66,12 +72,8 @@ dbl (151): Season, Adjusted Temo, Adjusted Tempo Rank, Raw Tempo, Raw Tempo ...
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Clean the Data </span></span>
-<span id="cb7-2"></span>
-<span id="cb7-3"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># make seed numeric</span></span>
-<span id="cb7-4">DEV_March_Madness <span class="ot" style="color: #003B4F;
+font-style: inherit;"># make the seed variable numeric</span></span>
+<span id="cb7-2">DEV_March_Madness <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> DEV_March_Madness <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -118,7 +120,7 @@ font-style: inherit;">9</span></span>
 <span id="cb9-6"></span>
 <span id="cb9-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># create a cinderella variable</span></span>
+font-style: inherit;"># create a Cinderella variable</span></span>
 <span id="cb9-8">DEV_March_Madness <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> DEV_March_Madness <span class="sc" style="color: #5E5E5E;
@@ -146,12 +148,12 @@ font-style: inherit;">"Yes"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"No"</span>))</span></code></pre></div></div>
 </div>
-<section id="compare-offense-and-defense" class="level1">
-<h1>compare offense and defense</h1>
+<section id="compare-offensive-and-defensive-efficiency" class="level1">
+<h1>Compare offensive and defensive efficiency</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
-font-style: italic;">## Plot comparing offense for Cinderella vs not Cinderella</span></span>
+font-style: italic;">## Plot comparing offensive efficiency for Cinderella vs not Cinderella</span></span>
 <span id="cb10-2"></span>
 <span id="cb10-3"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -194,7 +196,7 @@ font-style: inherit;">"Cinderella Team"</span>, <span class="at" style="color: #
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"TO %"</span>) <span class="sc" style="color: #5E5E5E;
+font-style: inherit;">"Pts"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb10-7">  <span class="fu" style="color: #4758AB;
@@ -248,7 +250,7 @@ font-style: inherit;">"bold"</span>))</span></code></pre></div></div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
-font-style: italic;">## Plot comparing defense for Cinderella vs not Cinderella</span></span>
+font-style: italic;">## Plot comparing defensive efficiency for Cinderella vs not Cinderella</span></span>
 <span id="cb11-2"></span>
 <span id="cb11-3"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -291,7 +293,7 @@ font-style: inherit;">"Cinderella Team"</span>, <span class="at" style="color: #
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"TO %"</span>) <span class="sc" style="color: #5E5E5E;
+font-style: inherit;">"Pts"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb11-7">  <span class="fu" style="color: #4758AB;

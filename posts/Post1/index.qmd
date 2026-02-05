@@ -1,5 +1,189 @@
 ---
-title: "index"
-format: html
+title: "What makes a Cinderella Team"
+author: "Jacobi Lafferty"
+date: "2026-02-2"
+categories: [analysis, March Madness]
 ---
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+DEV_March_Madness
+DEV_March_Madness$Rebounding
+```
+
+```{r}
+# Clean the Data 
+
+# make seed numeric
+DEV_March_Madness <- DEV_March_Madness |> mutate(Seed = as.numeric(Seed))
+
+# filter for only march madness teams and 9 or above seeds(to target Cinderella's)
+DEV_March_Madness <- DEV_March_Madness |>
+  filter(`Post-Season Tournament` == "March Madness",
+         Seed >= 9
+         )
+
+# create a cinderella variable
+DEV_March_Madness <- DEV_March_Madness |>
+  mutate(Cinderella = if_else(`Final Four?` == "Yes", "Yes", "No"))
+
+```
+
+# compare offense and defense
+```{r}
+## Plot comparing offense for Cinderella vs not Cinderella
+
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = AdjOE, fill = Cinderella)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Offensive Efficiency", subtitle = "Points scored per 100 possesions", x = "Cinderella Team", y = "TO %") +
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+
+```{r}
+## Plot comparing defense for Cinderella vs not Cinderella
+
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = AdjDE, fill = Cinderella)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Defensive Efficiency", subtitle = "Points allowed per 100 possesions", x = "Cinderella Team", y = "TO %") +
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+
+# Offense 
+
+
+```{r}
+# Boxplot comparing Pace for Cinderella vs not Cinderella
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = `Pre-Tournament.Tempo`, fill = Cinderella)) +
+  geom_boxplot() + 
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme_minimal() +
+  labs(title = "Team Pace", subtitle = "# of possesions per 40 minutes", x = "Cinderella Team", y = "Pace") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+
+```{r}
+## BoxPlot comparing Rebounding for Cinderella vs not Cinderella
+
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = ORPct, fill = Cinderella)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Team Offensive Rebounding", subtitle = "Percentage of own missed shots a team rebounded", x = "Cinderella Team", y = "Rebound %") +
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r}
+## BoxPlot comparing Shooting for Cinderella vs not Cinderella
+
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = FG3Pct, fill = Cinderella)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Team Three Point %", x = "Cinderella Team", y = "3pt %") +
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r}
+## Plot comparing Turnovers for Cinderella vs not Cinderella
+
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = TOPct, fill = Cinderella)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  labs(title = "Team Turnover %", subtitle = "% of team's possesions that end in a turnover", x = "Cinderella Team", y = "TO %") +
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+
+
+```{r}
+#offensive scatterplot
+library(ggrepel)
+
+ggplot(data = DEV_March_Madness, aes(x = FG3Pct, y = TOPct)) +
+  geom_point(data = subset(DEV_March_Madness, Cinderella == "No")) +
+  geom_point(data = subset(DEV_March_Madness, Cinderella == "Yes"), color = "darkorange1", size = 3) +
+  theme_minimal() +
+  labs(title = "Cinderella Offensive Profile", 
+       subtitle = "Comparing 3pt Accuracy and Ball Security",
+       x = "3-Point Percentage", 
+       y = "Turnover Percentage") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+ 
+```
+
+# defense 
+
+```{r}
+# Boxplot comparing Foul Rate for Cinderella vs not Cinderella
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = DefFT, fill = Cinderella)) +
+  geom_boxplot() + 
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme_minimal() +
+  labs(title = "Defensive Foul Rate", 
+       subtitle = "Free Throw Rate Allowed", 
+       x = "Cinderella Team", y = "Foul Rate") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r}
+# Boxplot comparing Steal Rate for Cinderella vs not Cinderella
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = StlRate, fill = Cinderella)) +
+  geom_boxplot() + 
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme_minimal() +
+  labs(title = "Defensive Steal Rate", 
+       subtitle = "Percentage of possessions ending in a steal", 
+       x = "Cinderella Team", y = "Steal Rate") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r}
+# Boxplot comparing Opponent 3pt % for Cinderella vs not Cinderella
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = OppFG3Pct, fill = Cinderella)) +
+  geom_boxplot() + 
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme_minimal() +
+  labs(title = "Opponent 3Pt%", 
+       x = "Cinderella Team", y = "Opp 3pt %") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r}
+# Boxplot comparing Defensive Possession Length for Cinderella vs not Cinderella
+ggplot(DEV_March_Madness, aes(x = Cinderella, y = `Avg Possession Length (Defense)`, fill = Cinderella)) +
+  geom_boxplot() + 
+  scale_fill_manual(values = c("Yes" = "darkorange1", "No" = "darkgrey")) +
+  theme_minimal() +
+  labs(title = "Defensive Possesion Length", 
+       subtitle = "Avg seconds per defensive possession", 
+       x = "Cinderella Team", y = "Seconds") +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r}
+# defensive scatterplot 
+  
+ggplot(data = DEV_March_Madness, aes(x = OppFG3Pct, y = DefFT)) +
+  geom_point(data = subset(DEV_March_Madness, Cinderella == "No")) +
+  geom_point(data = subset(DEV_March_Madness, Cinderella == "Yes"), color = "darkorange1", size = 3) +
+  theme_minimal() +
+  labs(title = "Cinderella Defensive Profile", 
+       subtitle = "Comparing Oppenent 3Pt% and Foul Rate",
+       x = "Opponent 3-Point Percentage", 
+       y = "Foul Rate") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
 

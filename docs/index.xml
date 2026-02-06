@@ -74,9 +74,17 @@ font-style: inherit;"># Read in The data </span></span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">read_csv</span>(<span class="st" style="color: #20794D;
+font-style: inherit;">read_csv</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">"/Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog/posts/Post1/archive/DEV _ March Madness.csv"</span>)</span></code></pre></div></div>
+font-style: inherit;">here</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"posts"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Post1"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"archive"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DEV _ March Madness.csv"</span>))</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 8315 Columns: 165
 ── Column specification ────────────────────────────────────────────────────────

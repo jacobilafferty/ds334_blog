@@ -196,8 +196,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>For this post, I’m exploring MLB payrolls. Recently, there has been some controversy throughout the league due to big market teams, especially the dodgers, spending seemingly infinite amounts of money to sign all the big names in free agency. Currently in the MLB, there is no hard salary cap. There are taxes for going over a certain amounts, but for big market teams those taxes seem to not matter. I’m hoping to get to the bottom of how big of a problem this actually is. Do team’s who spend the most money really perform significantly better?</p>
-<p>To investigate this question, I’m working with a data set from Kaggle called <a href="https://www.kaggle.com/datasets/christophertreasure/mlb-team-payrolls-2011-2024">MLB Team Payrolls 2011-2024</a>. It contains both salary and performance data for every MLB team from 2011-2014. To approach this question, I wanted to not only see how salary effects winning, but also explore efficiency. What I mean by efficiency is spending the least amount of money to get the most possible wins. One of my favorite movies “MoneyBall” was a big inspiration for this idea. I want to see whether teams who have to work within a budget and prioritize efficiency have a chance, or if they are doomed from the start to the teams with the highest budgets.</p>
+<p>For this post, I’m exploring MLB payrolls. Recently, there has been some controversy throughout the league due to big market teams, especially the Dodgers, spending seemingly infinite amounts of money to sign all the big names in free agency. Currently in the MLB, there is no hard salary cap. There are taxes for going over a certain amounts, but for big market teams those taxes seem to not matter. I’m hoping to get to the bottom of how big of a problem this actually is. Do teams who spend the most money really perform significantly better?</p>
+<p>To investigate this question, I’m working with a data set from Kaggle called <a href="https://www.kaggle.com/datasets/christophertreasure/mlb-team-payrolls-2011-2024">MLB Team Payrolls 2011-2024</a>. It contains both salary and performance data for every MLB team from 2011-2024 (420 observations). To approach this question, I wanted to not only see how salary effects winning, but also explore efficiency. What I mean by efficiency is spending the least amount of money to get the most possible wins. One of my favorite movies “MoneyBall” was a big inspiration for this idea. I want to see whether teams who have to work within a budget and prioritize efficiency have a chance, or if they are doomed from the start to the teams with the highest budgets.</p>
 <p>First, I need to create a couple variables to help us explore this question. We need Win Percentage and Efficiency. Efficiency in our case will be Payroll / Wins. In other words, how much a team pays for each win.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -285,7 +285,7 @@ dbl (4): Year, Average Age, Wins, Losses
 </div>
 </div>
 </div>
-<p>The first thing to look at is the teams with the highest average payrolls. Not surprisingly, big market cities like LA, NY, and Boston are among the top, while smaller markets like Oakland and Tampa Bay are on the bottom. This plot is also colored by Win Percentage. At first glance, it seems like the teams around the top tend to have a higher winning percentage, but its not perfectly clear from this. Let’s plot that relationship next.</p>
+<p>The first thing to look at is the teams with the highest average payrolls. Not surprisingly, big market cities like LA, NY, and Boston are among the top, while smaller markets like Oakland and Tampa Bay are on the bottom. This plot is also colored by Win Percentage. At first glance, it seems like the teams around the top tend to have a higher winning percentage, but it’s not perfectly clear from this. Let’s plot that relationship next.</p>
 </section>
 <section id="payroll-vs-win-percentage" class="level1">
 <h1>Payroll vs Win Percentage</h1>
@@ -354,7 +354,7 @@ dbl (4): Year, Average Age, Wins, Losses
 </div>
 </div>
 </div>
-<p>This plot shows us the top 15 efficient seasons from our range of data (2011-2024). We can see here that a lot of small market teams, even teams that were at the very bottom of total Payroll like Tampa Bay and Oakland, have some of the most efficient seasons. This tells us a lot because we aren’t seeing high market teams here. If this top 15 were mostly comprised of the Dodgers, Yankees, etc, it would tell us that spending all that money is worth it, because your winning enough to be the most efficient. It’s promising that not only are these not the top spending teams, but they are mostly among the lowest spending teams. The other thing we can observe from this plot is the win pct. Most fall right under .600.</p>
+<p>This plot shows us the top 15 efficient seasons from our range of data (2011-2024). We can see here that a lot of small market teams, even teams that were at the very bottom of total Payroll like Tampa Bay and Oakland, have some of the most efficient seasons. This tells us a lot because we aren’t seeing high market teams here. If this top 15 were mostly comprised of the Dodgers, Yankees, etc, it would tell us that spending all that money is worth it, because they are winning enough to be the most efficient. It’s promising that not only are these not the top spending teams, but they are mostly among the lowest spending teams. The other thing we can observe from this plot is the win pct. Most fall right under .600.</p>
 <p>Let’s take the same approach now for salary instead of efficiency so we can evetually compare them.</p>
 </section>
 <section id="top-15-salary" class="level1">
@@ -395,7 +395,7 @@ dbl (4): Year, Average Age, Wins, Losses
 </div>
 </div>
 </div>
-<p>Once again this plot takes the top 15 teams, except this time for their total payroll instead of efficiency. Unlike the very first plot we looked at, this looks at individual seasons as opposed to averages. We see a lot of LA and NY, as expected. Similar to the efficiency plot, it appears that most of these teams fall right under a .600 win percentage. It’s very promising that the win percentages appear to be close together.</p>
+<p>Once again, this plot takes the top 15 teams, except this time for their total payroll instead of efficiency. Unlike the very first plot we looked at, this looks at individual seasons as opposed to averages. We see a lot of LA and NY, as expected. Similar to the efficiency plot, it appears that most of these teams fall right under a .600 win percentage. It’s very promising that the win percentages appear to be close together.</p>
 </section>
 <section id="comparing-most-efficient-and-most-expensive" class="level1">
 <h1>Comparing Most Efficient and Most Expensive</h1>

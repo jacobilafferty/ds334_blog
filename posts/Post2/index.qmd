@@ -13,6 +13,8 @@ To investigate this question, I'm working with a data set from Kaggle called [ML
 First, I need to create a couple variables to help us explore this question. We need Win Percentage and Efficiency. Efficiency in our case will be Payroll / Wins. In other words, how much a team pays for each win. 
 
 ```{r}
+#| message: false
+#| warning: false
 library(tidyverse)
 library(baseballr)
 library(here)

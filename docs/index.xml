@@ -29,47 +29,15 @@
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.6.0
-✔ ggplot2   4.0.2     ✔ tibble    3.3.1
-✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-✔ purrr     1.2.1     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(baseballr)</span>
-<span id="cb9-2"><span class="fu" style="color: #4758AB;
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(here)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>here() starts at /Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">salaries <span class="ot" style="color: #003B4F;
+font-style: inherit;">library</span>(here)</span>
+<span id="cb1-4"></span>
+<span id="cb1-5">salaries <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -81,23 +49,14 @@ font-style: inherit;">"posts"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Post2"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"mlb_payrolls.csv"</span>))</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 420 Columns: 12
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (8): Team, Team Name, Total Payroll Allocations, Active 26-Man, Injured,...
-dbl (4): Year, Average Age, Wins, Losses
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">salaries <span class="ot" style="color: #003B4F;
+font-style: inherit;">"mlb_payrolls.csv"</span>))</span>
+<span id="cb1-6"></span>
+<span id="cb1-7">salaries <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> salaries <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb13-2">  <span class="fu" style="color: #4758AB;
+<span id="cb1-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -106,7 +65,7 @@ background-color: null;
 font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">162</span>,</span>
-<span id="cb13-3">         <span class="at" style="color: #657422;
+<span id="cb1-9">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Payroll =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -125,7 +84,7 @@ background-color: null;
 font-style: inherit;">Total Payroll Allocations</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span>),</span>
-<span id="cb13-4">         <span class="at" style="color: #657422;
+<span id="cb1-10">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Payroll =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -134,30 +93,30 @@ background-color: null;
 font-style: inherit;">","</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">""</span>, Payroll),</span>
-<span id="cb13-5">         <span class="at" style="color: #657422;
+<span id="cb1-11">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Payroll =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">as.numeric</span>(Payroll),</span>
-<span id="cb13-6">         <span class="at" style="color: #657422;
+<span id="cb1-12">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Payroll =</span> Payroll <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1000000</span>,</span>
-<span id="cb13-7">         <span class="at" style="color: #657422;
+<span id="cb1-13">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">efficiency =</span> Payroll <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> Wins</span>
-<span id="cb13-8">         )</span></code></pre></div></div>
+<span id="cb1-14">         )</span></code></pre></div></div>
 </div>
 </section>
 <section id="highest-payrolls" class="level1">
 <h1>Highest Payrolls</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">expensive_teams <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">expensive_teams <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> salaries <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -166,29 +125,29 @@ background-color: null;
 font-style: inherit;">group_by</span>(Team) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb14-2">  <span class="fu" style="color: #4758AB;
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">summarise</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">avg_payroll =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mean</span>(Payroll),</span>
-<span id="cb14-3">            <span class="at" style="color: #657422;
+<span id="cb2-3">            <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">avg_win_pct =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mean</span>(win_pct)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb14-4">  <span class="fu" style="color: #4758AB;
+<span id="cb2-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Team =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">fct_reorder</span>(Team, avg_payroll))</span>
-<span id="cb14-5"></span>
-<span id="cb14-6"><span class="fu" style="color: #4758AB;
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -201,7 +160,7 @@ background-color: null;
 font-style: inherit;">y =</span> Team)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb14-7">  <span class="fu" style="color: #4758AB;
+<span id="cb2-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_segment</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -216,50 +175,50 @@ background-color: null;
 font-style: inherit;">color =</span> avg_win_pct)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb14-8">  <span class="fu" style="color: #4758AB;
+<span id="cb2-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb14-9">  <span class="fu" style="color: #4758AB;
+<span id="cb2-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb14-10">  <span class="fu" style="color: #4758AB;
+<span id="cb2-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_color_viridis_c</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb14-11">  <span class="fu" style="color: #4758AB;
+<span id="cb2-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(</span>
-<span id="cb14-12">    <span class="at" style="color: #657422;
+<span id="cb2-12">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Average MLB Payrolls"</span>,</span>
-<span id="cb14-13">    <span class="at" style="color: #657422;
+<span id="cb2-13">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"(2011–2024)"</span>,</span>
-<span id="cb14-14">    <span class="at" style="color: #657422;
+<span id="cb2-14">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Average Annual Payroll (in Millions)"</span>,</span>
-<span id="cb14-15">    <span class="at" style="color: #657422;
+<span id="cb2-15">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"MLB Franchise"</span>,</span>
-<span id="cb14-16">    <span class="at" style="color: #657422;
+<span id="cb2-16">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Win %"</span></span>
-<span id="cb14-17">  )</span></code></pre></div></div>
+<span id="cb2-17">  )</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -273,7 +232,7 @@ font-style: inherit;">"Win %"</span></span>
 <section id="payroll-vs-win-percentage" class="level1">
 <h1>Payroll vs Win Percentage</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -286,45 +245,45 @@ background-color: null;
 font-style: inherit;">y =</span> win_pct)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb15-2">  <span class="fu" style="color: #4758AB;
+<span id="cb3-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb15-3">  <span class="fu" style="color: #4758AB;
+<span id="cb3-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb15-4">  <span class="fu" style="color: #4758AB;
+<span id="cb3-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb15-5">  <span class="fu" style="color: #4758AB;
+<span id="cb3-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(</span>
-<span id="cb15-6">    <span class="at" style="color: #657422;
+<span id="cb3-6">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Payroll vs Win Percentage"</span>,</span>
-<span id="cb15-7">    <span class="at" style="color: #657422;
+<span id="cb3-7">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"(2011-2024)"</span>,</span>
-<span id="cb15-8">    <span class="at" style="color: #657422;
+<span id="cb3-8">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Total Payroll (in Millions)"</span>,</span>
-<span id="cb15-9">    <span class="at" style="color: #657422;
+<span id="cb3-9">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Regular Season Win %"</span></span>
-<span id="cb15-10">  )</span></code></pre></div></div>
+<span id="cb3-10">  )</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
 </div>
@@ -342,12 +301,12 @@ font-style: inherit;">"Regular Season Win %"</span></span>
 <section id="top-15-efficiency" class="level1">
 <h1>Top 15 Efficiency</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1">efficiency_seasons <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">efficiency_seasons <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> salaries <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb17-2">  <span class="fu" style="color: #4758AB;
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(Wins <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -356,32 +315,32 @@ background-color: null;
 font-style: inherit;">81</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb17-3">  <span class="fu" style="color: #4758AB;
+<span id="cb5-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Team_Year =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">paste</span>(Team, Year),</span>
-<span id="cb17-4">         <span class="at" style="color: #657422;
+<span id="cb5-4">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Team_Year =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">fct_reorder</span>(Team_Year, efficiency)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb17-5">  <span class="fu" style="color: #4758AB;
+<span id="cb5-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">arrange</span>(efficiency) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb17-6">  <span class="fu" style="color: #4758AB;
+<span id="cb5-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">head</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">15</span>)</span>
-<span id="cb17-7"></span>
-<span id="cb17-8"><span class="fu" style="color: #4758AB;
+<span id="cb5-7"></span>
+<span id="cb5-8"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(efficiency_seasons, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -392,7 +351,7 @@ background-color: null;
 font-style: inherit;">y =</span> Team_Year)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb17-9">  <span class="fu" style="color: #4758AB;
+<span id="cb5-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_segment</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -411,7 +370,7 @@ background-color: null;
 font-style: inherit;">1.5</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb17-10">  <span class="fu" style="color: #4758AB;
+<span id="cb5-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_point</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -424,45 +383,45 @@ background-color: null;
 font-style: inherit;">2</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb17-11">  <span class="fu" style="color: #4758AB;
+<span id="cb5-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(</span>
-<span id="cb17-12">    <span class="at" style="color: #657422;
+<span id="cb5-12">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Most Efficient Teams"</span>,</span>
-<span id="cb17-13">    <span class="at" style="color: #657422;
+<span id="cb5-13">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Top 15 most efficient seasons by cost per win (2011–2024)"</span>,</span>
-<span id="cb17-14">    <span class="at" style="color: #657422;
+<span id="cb5-14">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Regular Season Win %"</span>,</span>
-<span id="cb17-15">    <span class="at" style="color: #657422;
+<span id="cb5-15">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Team"</span></span>
-<span id="cb17-16">  ) <span class="sc" style="color: #5E5E5E;
+<span id="cb5-16">  ) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb17-17">  <span class="fu" style="color: #4758AB;
+<span id="cb5-17">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb17-18">  <span class="fu" style="color: #4758AB;
+<span id="cb5-18">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_color_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb17-19">    <span class="st" style="color: #20794D;
+<span id="cb5-19">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"TB"</span>  <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -471,7 +430,7 @@ background-color: null;
 font-style: inherit;">"#092C5C"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Rays</span></span>
-<span id="cb17-20">    <span class="st" style="color: #20794D;
+<span id="cb5-20">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"OAK"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -480,7 +439,7 @@ background-color: null;
 font-style: inherit;">"#003831"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Athletics</span></span>
-<span id="cb17-21">    <span class="st" style="color: #20794D;
+<span id="cb5-21">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"CLE"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -489,7 +448,7 @@ background-color: null;
 font-style: inherit;">"#E31937"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Guardians/Indians</span></span>
-<span id="cb17-22">    <span class="st" style="color: #20794D;
+<span id="cb5-22">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"MIL"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -498,7 +457,7 @@ background-color: null;
 font-style: inherit;">"#12284B"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Brewers</span></span>
-<span id="cb17-23">    <span class="st" style="color: #20794D;
+<span id="cb5-23">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"ARI"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -507,7 +466,7 @@ background-color: null;
 font-style: inherit;">"#A71930"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Diamondbacks</span></span>
-<span id="cb17-24">    <span class="st" style="color: #20794D;
+<span id="cb5-24">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"HOU"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -516,7 +475,7 @@ background-color: null;
 font-style: inherit;">"#EB6E1F"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Astros</span></span>
-<span id="cb17-25">    <span class="st" style="color: #20794D;
+<span id="cb5-25">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"SEA"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -525,7 +484,7 @@ background-color: null;
 font-style: inherit;">"#005C5C"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Mariners (Northwest Green)</span></span>
-<span id="cb17-26">    <span class="st" style="color: #20794D;
+<span id="cb5-26">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"PIT"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -534,7 +493,7 @@ background-color: null;
 font-style: inherit;">"#FDB827"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Pirates (Gold)</span></span>
-<span id="cb17-27">    <span class="st" style="color: #20794D;
+<span id="cb5-27">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"BAL"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -543,10 +502,10 @@ background-color: null;
 font-style: inherit;">"#DF4601"</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Orioles (Orange)</span></span>
-<span id="cb17-28">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb5-28">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb17-29">  <span class="fu" style="color: #4758AB;
+<span id="cb5-29">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -567,39 +526,39 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 <section id="top-15-salary" class="level1">
 <h1>Top 15 Salary</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">salary_seasons <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">salary_seasons <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> salaries <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb18-2">  <span class="fu" style="color: #4758AB;
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Team_Year =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">paste</span>(Team, Year),</span>
-<span id="cb18-3">         <span class="at" style="color: #657422;
+<span id="cb6-3">         <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Team_Year =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">fct_reorder</span>(Team_Year, Payroll)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb18-4">  <span class="fu" style="color: #4758AB;
+<span id="cb6-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">desc</span>(Payroll)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb18-5">  <span class="fu" style="color: #4758AB;
+<span id="cb6-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">head</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">15</span>)</span>
-<span id="cb18-6"></span>
-<span id="cb18-7"><span class="fu" style="color: #4758AB;
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(salary_seasons, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -610,7 +569,7 @@ background-color: null;
 font-style: inherit;">y =</span> Team_Year)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb18-8">  <span class="fu" style="color: #4758AB;
+<span id="cb6-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_segment</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -629,7 +588,7 @@ background-color: null;
 font-style: inherit;">1.5</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb18-9">  <span class="fu" style="color: #4758AB;
+<span id="cb6-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_point</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -642,14 +601,14 @@ background-color: null;
 font-style: inherit;">2</span>)<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb18-10">  <span class="fu" style="color: #4758AB;
+<span id="cb6-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_color_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb18-11">    <span class="st" style="color: #20794D;
+<span id="cb6-11">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"NYM"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -658,7 +617,7 @@ background-color: null;
 font-style: inherit;">"#002D72"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Mets Blue</span></span>
-<span id="cb18-12">    <span class="st" style="color: #20794D;
+<span id="cb6-12">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"NYY"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -667,7 +626,7 @@ background-color: null;
 font-style: inherit;">"#003087"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Yankees Navy</span></span>
-<span id="cb18-13">    <span class="st" style="color: #20794D;
+<span id="cb6-13">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"LAD"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -676,7 +635,7 @@ background-color: null;
 font-style: inherit;">"#005A9C"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Dodgers Blue</span></span>
-<span id="cb18-14">    <span class="st" style="color: #20794D;
+<span id="cb6-14">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"HOU"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -685,7 +644,7 @@ background-color: null;
 font-style: inherit;">"#EB6E1F"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Astros Orange</span></span>
-<span id="cb18-15">    <span class="st" style="color: #20794D;
+<span id="cb6-15">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"SD"</span>  <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -694,7 +653,7 @@ background-color: null;
 font-style: inherit;">"#2F241D"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Padres Brown</span></span>
-<span id="cb18-16">    <span class="st" style="color: #20794D;
+<span id="cb6-16">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"TEX"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -703,7 +662,7 @@ background-color: null;
 font-style: inherit;">"#003278"</span>, <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Rangers Blue</span></span>
-<span id="cb18-17">    <span class="st" style="color: #20794D;
+<span id="cb6-17">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"PHI"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -712,42 +671,42 @@ background-color: null;
 font-style: inherit;">"#E81828"</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Phillies Red</span></span>
-<span id="cb18-18">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb6-18">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb18-19"></span>
-<span id="cb18-20">  <span class="fu" style="color: #4758AB;
+<span id="cb6-19"></span>
+<span id="cb6-20">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(</span>
-<span id="cb18-21">    <span class="at" style="color: #657422;
+<span id="cb6-21">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Most Expensive Teams"</span>,</span>
-<span id="cb18-22">    <span class="at" style="color: #657422;
+<span id="cb6-22">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Top 15 most expensive seasons (2011–2024)"</span>,</span>
-<span id="cb18-23">    <span class="at" style="color: #657422;
+<span id="cb6-23">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Win %"</span>,</span>
-<span id="cb18-24">    <span class="at" style="color: #657422;
+<span id="cb6-24">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Teams"</span></span>
-<span id="cb18-25">  ) <span class="sc" style="color: #5E5E5E;
+<span id="cb6-25">  ) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb18-26">  <span class="fu" style="color: #4758AB;
+<span id="cb6-26">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb18-27">  <span class="fu" style="color: #4758AB;
+<span id="cb6-27">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -767,28 +726,28 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 <section id="comparing-most-efficient-and-most-expensive" class="level1">
 <h1>Comparing Most Efficient and Most Expensive</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1">comparison_data <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">comparison_data <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">bind_rows</span>(</span>
-<span id="cb19-2">  <span class="fu" style="color: #4758AB;
+<span id="cb7-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(efficiency_seasons, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Category =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Efficiency"</span>),</span>
-<span id="cb19-3">  <span class="fu" style="color: #4758AB;
+<span id="cb7-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(salary_seasons, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Category =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Expensive"</span>)</span>
-<span id="cb19-4">)</span>
-<span id="cb19-5"></span>
-<span id="cb19-6"><span class="fu" style="color: #4758AB;
+<span id="cb7-4">)</span>
+<span id="cb7-5"></span>
+<span id="cb7-6"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(comparison_data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -799,51 +758,51 @@ background-color: null;
 font-style: inherit;">y =</span> win_pct)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb19-7">  <span class="fu" style="color: #4758AB;
+<span id="cb7-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb19-8">  <span class="fu" style="color: #4758AB;
+<span id="cb7-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(</span>
-<span id="cb19-9">    <span class="at" style="color: #657422;
+<span id="cb7-9">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Efficient Teams vs Expensive Teams"</span>,</span>
-<span id="cb19-10">    <span class="at" style="color: #657422;
+<span id="cb7-10">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Comparing win percentages of the Top 15 seasons in each strategy (2011-2024)"</span>,</span>
-<span id="cb19-11">    <span class="at" style="color: #657422;
+<span id="cb7-11">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">""</span>,</span>
-<span id="cb19-12">    <span class="at" style="color: #657422;
+<span id="cb7-12">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Win %"</span></span>
-<span id="cb19-13">  ) <span class="sc" style="color: #5E5E5E;
+<span id="cb7-13">  ) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb19-14">  <span class="fu" style="color: #4758AB;
+<span id="cb7-14">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb19-15">  <span class="fu" style="color: #4758AB;
+<span id="cb7-15">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(</span>
-<span id="cb19-16">    <span class="at" style="color: #657422;
+<span id="cb7-16">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"none"</span></span>
-<span id="cb19-17">  )</span></code></pre></div></div>
+<span id="cb7-17">  )</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

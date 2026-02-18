@@ -1,0 +1,147 @@
+---
+title: "index"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(baseballr)
+library(here)
+
+salaries <- read_csv(here("posts", "Post2", "mlb_payrolls.csv"))
+
+salaries <- salaries |> filter(Year > 2014) |>
+  mutate(win_pct = Wins / 162,
+         Payroll = gsub("\\$", "", `Total Payroll Allocations`),
+         Payroll = gsub(",", "", Payroll),
+         Payroll = as.numeric(Payroll),
+         Payroll = Payroll / 1000000,
+         efficiency = Payroll / Wins
+         )
+
+
+```
+
+# Highest Payrolls
+
+```{r}
+expensive_teams <- salaries |> group_by(Team) |>
+  summarise(avg_payroll = mean(Payroll),
+            avg_win_pct = mean(win_pct)) |>
+  mutate(Team = fct_reorder(Team, avg_win_pct))
+
+ggplot(data = expensive_teams, aes(x = avg_payroll, y = Team)) +
+  geom_segment(aes(xend = 0, yend = Team, color = avg_win_pct)) +
+  geom_point() +
+  theme_minimal() +
+  scale_color_viridis_c() +
+  labs(
+    title = "Average MLB Payrolls",
+    subtitle = "(2015–2024)",
+    x = "Average Annual Payroll (in Millions)",
+    y = "MLB Franchise",
+    color = "Win %"
+  )
+```
+
+# Payroll vs Win Percentage
+```{r}
+ggplot(data = salaries, aes(x = Payroll, y = win_pct)) +
+  geom_point() +
+  theme_minimal() +
+  geom_smooth() +
+  labs(
+    title = "Payroll vs Win Percentage",
+    subtitle = "(2015-2024)",
+    x = "Total Payroll (in Millions)",
+    y = "Regular Season Win %"
+  )
+  
+```
+
+# Top 15 Efficiency
+```{r}
+efficiency_seasons <- salaries |> 
+  filter(Wins > 81) |>
+  mutate(Team_Year = paste(Team, Year),
+         Team_Year = fct_reorder(Team_Year, efficiency)) |> 
+  arrange(efficiency) |> 
+  head(15)
+
+ggplot(efficiency_seasons, aes(x = win_pct, y = Team_Year)) +
+  geom_segment(aes(xend = 0, yend = Team_Year, color = Team), linewidth = 1.5) +
+  geom_point(aes(color = Team), size = 2) +
+  labs(
+    title = "Most Efficient Teams",
+    subtitle = "Top 15 most efficient seasons by cost per win (2015–2024)",
+    x = "Regular Season Win %",
+    y = "Team"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c(
+    "TB"  = "#092C5C", # Rays
+    "OAK" = "#003831", # Athletics
+    "CLE" = "#E31937", # Guardians/Indians
+    "MIL" = "#12284B", # Brewers
+    "ARI" = "#A71930", # Diamondbacks
+    "HOU" = "#EB6E1F", # Astros
+    "SEA" = "#005C5C", # Mariners (Northwest Green)
+    "PIT" = "#FDB827", # Pirates (Gold)
+    "BAL" = "#DF4601"  # Orioles (Orange)
+  )) +
+  theme(legend.position = "none")
+```
+
+# Top 15 Salary
+```{r}
+salary_seasons <- salaries |> 
+  mutate(Team_Year = paste(Team, Year),
+         Team_Year = fct_reorder(Team_Year, Payroll)) |> 
+  arrange(desc(Payroll)) |> 
+  head(15)
+
+ggplot(salary_seasons, aes(x = win_pct, y = Team_Year)) +
+  geom_segment(aes(xend = 0, yend = Team_Year, color = Team), linewidth = 1.5) +
+  geom_point(aes(color = Team), size = 2)+
+  scale_color_manual(values = c(
+    "NYM" = "#002D72", # Mets Blue
+    "NYY" = "#003087", # Yankees Navy
+    "LAD" = "#005A9C", # Dodgers Blue
+    "HOU" = "#EB6E1F", # Astros Orange
+    "SD"  = "#2F241D", # Padres Brown
+    "TEX" = "#003278", # Rangers Blue
+    "PHI" = "#E81828"  # Phillies Red
+  )) +
+
+  labs(
+    title = "Most Expensive Teams",
+    subtitle = "Top 15 most expensive seasons (2015–2024)",
+    x = "Win %",
+    y = "Teams"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+# Comparing Most Efficient and Most Expensive
+```{r}
+comparison_data <- bind_rows(
+  mutate(efficiency_seasons, Category = "Efficiency"),
+  mutate(salary_seasons, Category = "Expensive")
+)
+
+ggplot(comparison_data, aes(x = Category, y = win_pct)) +
+  geom_boxplot() +
+  labs(
+    title = "Efficient Teams vs Expensive Teams",
+    subtitle = "Comparing win percentages of the Top 15 seasons in each strategy (2015-2024)",
+    x = "",
+    y = "Win %"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none"
+  )
+```
+
+

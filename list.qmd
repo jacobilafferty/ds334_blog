@@ -1,0 +1,16 @@
+---
+title: "list"
+format: html
+---
+
+in quatro.yml
+
+* change title
+* change links
+* change theme (default cosmo)
+
+in about.qmd
+
+* change links
+* change title
+* can change picture if you want

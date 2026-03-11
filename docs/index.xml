@@ -23,52 +23,19 @@
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>For this post, I’m exploring some PGA Tour data in hopes to uncover which parts of the golf game is most important. I am around a 5 or 6 handicap, and I’m hoping to be able to figure out what I should prioritize working on the most to improve my game. To answer this question, I chosen 5 variables to look at. These are Driving Distance, Driving Accuracy(% of fairways you hit), Iron Accuracy(% of greens in regulation you hit from the fairway), Scrambling(% of the time you make par after missing the green in regulation), and Number of Putts per round. I think these with these 5 stats, I’m able to cover all the key aspects of the game well(Driving, Irons, and Short Game).</p>
+<p>For this post, I’m exploring some PGA Tour data in hopes to uncover which parts of the golf game is most important. I am around a 5 or 6 handicap, and I’m hoping to be able to figure out what I should prioritize working on the most to improve my game. To answer this question, I’ve chosen 5 variables to look at. These are Driving Distance, Driving Accuracy(% of fairways you hit), Iron Accuracy(% of greens in regulation you hit from the fairway), Scrambling(% of the time you make par after missing the green in regulation), and Number of Putts per round. I think these with these 5 stats, I’m able to cover all the key aspects of the game well(Driving, Irons, and Short Game).</p>
 <p>The data set I’m working with is from Kaggle, called <a href="https://www.kaggle.com/datasets/jychoi87/pga-tour-top-200-player-data-20152019">PGA Tour Top 200 Player Data (2015-2019)</a>. It contains the PGA Tour statistics from the top 200 players across 5 years (2015-2019) for a total of 1497 observations. However, a lot of these have missing values, I’m assuming this due to some players not having played in enough rounds. After we remove these, we are left with 936 observations.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.6.0
-✔ ggplot2   4.0.2     ✔ tibble    3.3.1
-✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-✔ purrr     1.2.1     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(here)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>here() starts at /Users/jacobilafferty/Library/CloudStorage/OneDrive-St.LawrenceUniversity/DATA-334/ds334_blog</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+font-style: inherit;">library</span>(here)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(ggplot2)</span>
-<span id="cb11-2">pga <span class="ot" style="color: #003B4F;
+<span id="cb1-4">pga <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -80,22 +47,12 @@ font-style: inherit;">"posts"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Post3"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"pgafulldata.csv"</span>))</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1497 Columns: 29
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (6): PLAYER NAME, Approaches from &gt; 100 yards, Proximity to Hole, Avera...
-dbl (22): Ball Speed, Driving Distance, Eagles (Holes per), Putts Per Round,...
-num  (1): Official Money
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="co" style="color: #5E5E5E;
+font-style: inherit;">"pgafulldata.csv"</span>))</span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># get rid of players without Scoring Averages</span></span>
-<span id="cb13-2">pga <span class="ot" style="color: #003B4F;
+<span id="cb1-7">pga <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> pga <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -118,7 +75,7 @@ font-style: inherit;">`</span>))</span></code></pre></div></div>
 <h1>Driving</h1>
 <p>First, we will look at some data about Driving the Ball:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -131,6 +88,224 @@ background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Driving Distance</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Scoring Average</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How Does Driving Distance affect Scoring"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Driving Distance (yards)"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 27 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 27 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first thing to look at in terms of Driving is how far you hit the ball. This plot shows that in general, the further you can hit the ball the lower you score. It’s interesting however, the players who hit the ball less than 290 yards all seem to be around the same. However, once you get over that 290 yard threshold the further you hit it the better you score. This indicates for casual golfers who probably don’t hit the ball as far as the pros, Driving distance isn’t as important.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Driving Accuracy Percentage</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Scoring Average</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How Does Driving Accuracy affect Scoring"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"% of Fairways Hit"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The next thing we can look at in terms of Driving is the accuracy. Here we have a few outliers on the low end of accuracy, but other than that there doesn’t seem to be that much of a relationship. It appears out of the 2, distance definitely has more of an effect on your score(at least for pros).</p>
+</section>
+<section id="iron-play" class="level1">
+<h1>Iron Play</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">GIR Percentage from Fairway</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Scoring Average</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb10-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb10-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb10-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb10-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How Does Iron Play affect Scoring"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 11 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 11 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now looking at irons. This plot is measuring the Green in Regulation percentage from the fairway. There seems to be a strong relationship here. The more you hit the green, the lower you score. Out of the three things we’ve looked at so far, this definitely has the most effect. It tells us that capitalizing off good drives and giving yourself birdie chances on the green is very important.</p>
+</section>
+<section id="short-game" class="level1">
+<h1>Short Game</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">Putts Per Round</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span>, <span class="at" style="color: #657422;
 background-color: null;
@@ -164,31 +339,27 @@ font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"How Does Driving Distance effect Scoring"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Driving Distance (yards)"</span>)</span></code></pre></div></div>
+font-style: inherit;">"How Does Putting affect Scoring"</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 27 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 11 rows containing non-finite outside the scale range
 (`stat_smooth()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 27 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 11 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The first thing to look at in terms of Driving is how far you hit the ball. This plot shows that in general, the further you can hit the ball the lower you score. It’s interesting however, the players who hit the ball less than 290 yards all seem to be around the same. However, once you get over that 290 yard threshold the further you hit it the better you score. This indicates for casual golfers who probably don’t hit the ball as far as the pros, Driving distance isn’t as important.</p>
+<p>Now moving onto short game, the first thing we can look at is putting. There seems to be a semi-strong relationship here. The more you have to putt, the higher you shoot. However, putting doesn’t seem to have as much of an effect as iron play did. This is a little suprising to me, going into this I expected short game areas to have the most impact.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -198,13 +369,7 @@ font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">Driving Accuracy Percentage</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span>, <span class="at" style="color: #657422;
+font-style: inherit;">x =</span> Scrambling, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -231,214 +396,6 @@ font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5
 background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb18-5">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"How Does Driving Accuracy effect Scoring"</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"% of Fairways Hit"</span>)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 30 rows containing non-finite outside the scale range
-(`stat_smooth()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 30 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The next thing we can look at in terms of Driving is the accuracy. Here we have a few outliers on the low end of accuracy, but other than that there doesn’t seem to be that much of a relationship. It appears out of the 2, distance definitely has more of an effect on your score(at least for pros).</p>
-</section>
-<section id="iron-play" class="level1">
-<h1>Iron Play</h1>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">GIR Percentage from Fairway</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">Scoring Average</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span>)) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb22-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb22-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb22-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb22-5">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"How Does Iron Play effect Scoring"</span>)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 11 rows containing non-finite outside the scale range
-(`stat_smooth()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 11 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Now looking at irons. This plot is measuring the Green in Regulation percentage from the fairway. There seems to be a strong relationship here. The more you hit the green, the lower you score. Out of the three things we’ve looked at so far, this definitely has the most effect. It tells us that capitalizing off good drives and giving yourself birdie chances on the green is very important.</p>
-</section>
-<section id="short-game" class="level1">
-<h1>Short Game</h1>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">Putts Per Round</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span>, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">Scoring Average</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span>)) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb26-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb26-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb26-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb26-5">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"How Does Putting effect Scoring"</span>)</span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 11 rows containing non-finite outside the scale range
-(`stat_smooth()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 11 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://your-website-url.example.com/posts/Post3/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Now moving onto short game, the first thing we can look at is putting. There seems to be a semi-strong relationship here. The more you have to putt, the higher you shoot. However, putting doesn’t seem to have as much of an effect as iron play did. This is a little suprising to me, going into this I expected short game areas to have the most impact.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">data =</span> pga, <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">x =</span> Scrambling, <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">Scoring Average</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">`</span>)) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb30-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb30-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">geom_smooth</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb30-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span id="cb30-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -478,10 +435,10 @@ font-style: inherit;">"Scrambling % is how often you make a par after missing th
 <h1>What Seperates Elite Scorers from Average Scorers from Below Average Scorers</h1>
 <p>The next things we can explore with these 5 stats are how they separate Elite players, average players, and below average players(in terms of the PGA Tour). To do this I am going to split the data into 3 groups. The top 1/3 in scoring average, the middle 1/3, and the bottom 1/3.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># get the thresholds</span></span>
-<span id="cb34-2"><span class="fu" style="color: #4758AB;
+<span id="cb22-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">quantile</span>(pga<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -516,10 +473,10 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <pre><code>33.33333% 66.66667% 
  70.70600  71.19467 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># group players into the three groups by the thresholds</span></span>
-<span id="cb36-2">pga <span class="ot" style="color: #003B4F;
+<span id="cb24-2">pga <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> pga <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -534,10 +491,10 @@ background-color: null;
 font-style: inherit;">`</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb36-3">  <span class="fu" style="color: #4758AB;
+<span id="cb24-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(</span>
-<span id="cb36-4">  <span class="at" style="color: #657422;
+<span id="cb24-4">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -556,7 +513,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span>,</span>
-<span id="cb36-5">                    <span class="st" style="color: #20794D;
+<span id="cb24-5">                    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -583,7 +540,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span>,</span>
-<span id="cb36-6">                    <span class="st" style="color: #20794D;
+<span id="cb24-6">                    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -598,7 +555,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span>),</span>
-<span id="cb36-7">  <span class="at" style="color: #657422;
+<span id="cb24-7">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -618,7 +575,7 @@ font-style: inherit;">"below average"</span>)))</span></code></pre></div></div>
 <section id="driving-1" class="level1">
 <h1>Driving</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -639,48 +596,48 @@ background-color: null;
 font-style: inherit;">fill =</span> group)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb37-2">  <span class="fu" style="color: #4758AB;
+<span id="cb25-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb37-3">  <span class="fu" style="color: #4758AB;
+<span id="cb25-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb37-4">    <span class="st" style="color: #20794D;
+<span id="cb25-4">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#009E73"</span>,       </span>
-<span id="cb37-5">    <span class="st" style="color: #20794D;
+<span id="cb25-5">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#F0E442"</span>,      </span>
-<span id="cb37-6">    <span class="st" style="color: #20794D;
+<span id="cb25-6">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#D55E00"</span>  </span>
-<span id="cb37-7">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb25-7">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb37-8">  <span class="fu" style="color: #4758AB;
+<span id="cb25-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb37-9">  <span class="fu" style="color: #4758AB;
+<span id="cb25-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -693,7 +650,7 @@ background-color: null;
 font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb37-10">  <span class="fu" style="color: #4758AB;
+<span id="cb25-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -714,7 +671,7 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 </div>
 <p>Looking at driving distance again, the drop offs from elite to average to below average are all pretty similar. This plot further supports the idea that driving distance has an strong effect on scoring average. The best players hit the ball farther than the others.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -735,48 +692,48 @@ background-color: null;
 font-style: inherit;">fill =</span> group)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb39-2">  <span class="fu" style="color: #4758AB;
+<span id="cb27-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb39-3">  <span class="fu" style="color: #4758AB;
+<span id="cb27-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb39-4">    <span class="st" style="color: #20794D;
+<span id="cb27-4">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#009E73"</span>,       </span>
-<span id="cb39-5">    <span class="st" style="color: #20794D;
+<span id="cb27-5">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#F0E442"</span>,      </span>
-<span id="cb39-6">    <span class="st" style="color: #20794D;
+<span id="cb27-6">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#D55E00"</span>  </span>
-<span id="cb39-7">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb27-7">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb39-8">  <span class="fu" style="color: #4758AB;
+<span id="cb27-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb39-9">  <span class="fu" style="color: #4758AB;
+<span id="cb27-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -789,7 +746,7 @@ background-color: null;
 font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb39-10">  <span class="fu" style="color: #4758AB;
+<span id="cb27-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -808,12 +765,12 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 </div>
 </div>
 </div>
-<p>Similar to the scatterplots, driving accuracy doesn’t seem to have as much of an effect as distance does. There is an little dropoff for below average players, but not much difference between elite and average ones. This could tell you that driving accuracy could be important for worse players, but once you get decent at it, other things become more important.</p>
+<p>Similar to the scatterplots, driving accuracy doesn’t seem to have as much of an effect as distance does. There is a little drop off for below average players, but not much difference between elite and average ones. This could tell you that driving accuracy could be important for worse players, but once you get decent at it, other things become more important.</p>
 </section>
 <section id="iron-play-1" class="level1">
 <h1>Iron Play</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -834,48 +791,48 @@ background-color: null;
 font-style: inherit;">fill =</span> group)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb41-2">  <span class="fu" style="color: #4758AB;
+<span id="cb29-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb41-3">  <span class="fu" style="color: #4758AB;
+<span id="cb29-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb41-4">    <span class="st" style="color: #20794D;
+<span id="cb29-4">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#009E73"</span>,       </span>
-<span id="cb41-5">    <span class="st" style="color: #20794D;
+<span id="cb29-5">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#F0E442"</span>,      </span>
-<span id="cb41-6">    <span class="st" style="color: #20794D;
+<span id="cb29-6">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#D55E00"</span>  </span>
-<span id="cb41-7">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb29-7">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb41-8">  <span class="fu" style="color: #4758AB;
+<span id="cb29-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb41-9">  <span class="fu" style="color: #4758AB;
+<span id="cb29-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -888,7 +845,7 @@ background-color: null;
 font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb41-10">  <span class="fu" style="color: #4758AB;
+<span id="cb29-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -912,7 +869,7 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 <section id="short-game-1" class="level1">
 <h1>Short Game</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -927,48 +884,48 @@ background-color: null;
 font-style: inherit;">fill =</span> group)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-2">  <span class="fu" style="color: #4758AB;
+<span id="cb31-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-3">  <span class="fu" style="color: #4758AB;
+<span id="cb31-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb43-4">    <span class="st" style="color: #20794D;
+<span id="cb31-4">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#009E73"</span>,       </span>
-<span id="cb43-5">    <span class="st" style="color: #20794D;
+<span id="cb31-5">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#F0E442"</span>,      </span>
-<span id="cb43-6">    <span class="st" style="color: #20794D;
+<span id="cb31-6">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#D55E00"</span>  </span>
-<span id="cb43-7">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb31-7">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-8">  <span class="fu" style="color: #4758AB;
+<span id="cb31-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-9">  <span class="fu" style="color: #4758AB;
+<span id="cb31-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -981,7 +938,7 @@ background-color: null;
 font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-10">  <span class="fu" style="color: #4758AB;
+<span id="cb31-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1002,7 +959,7 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 </div>
 <p>Scrambling also seems to have pretty stead drop offs. It seems like the best players can scramble around the greens. Similarly to what the scatterplot showed, scrambling seems to have a big impact.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1023,48 +980,48 @@ background-color: null;
 font-style: inherit;">fill =</span> group)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb45-2">  <span class="fu" style="color: #4758AB;
+<span id="cb33-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb45-3">  <span class="fu" style="color: #4758AB;
+<span id="cb33-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_fill_manual</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(</span>
-<span id="cb45-4">    <span class="st" style="color: #20794D;
+<span id="cb33-4">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#009E73"</span>,       </span>
-<span id="cb45-5">    <span class="st" style="color: #20794D;
+<span id="cb33-5">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#F0E442"</span>,      </span>
-<span id="cb45-6">    <span class="st" style="color: #20794D;
+<span id="cb33-6">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span> <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#D55E00"</span>  </span>
-<span id="cb45-7">  )) <span class="sc" style="color: #5E5E5E;
+<span id="cb33-7">  )) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb45-8">  <span class="fu" style="color: #4758AB;
+<span id="cb33-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb45-9">  <span class="fu" style="color: #4758AB;
+<span id="cb33-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1077,7 +1034,7 @@ background-color: null;
 font-style: inherit;">""</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb45-10">  <span class="fu" style="color: #4758AB;
+<span id="cb33-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1103,10 +1060,10 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 <section id="strokes-saved" class="level1">
 <h1>Strokes Saved</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># get the thresholds for each stat</span></span>
-<span id="cb47-2"><span class="fu" style="color: #4758AB;
+<span id="cb35-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">quantile</span>(pga<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1141,7 +1098,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <pre><code>33.33333% 66.66667% 
  289.2000  296.6333 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">quantile</span>(pga<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1176,7 +1133,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <pre><code>33.33333% 66.66667% 
  59.20667  63.70000 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">quantile</span>(pga<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1211,7 +1168,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <pre><code>33.33333% 66.66667% 
     75.86     78.34 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">quantile</span>(pga<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1240,7 +1197,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <pre><code>33.33333% 66.66667% 
  57.52333  60.29667 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">quantile</span>(pga<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1275,17 +1232,17 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <pre><code>33.33333% 66.66667% 
     28.86     29.28 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># make the group variables for each stat</span></span>
-<span id="cb57-2">pga <span class="ot" style="color: #003B4F;
+<span id="cb45-2">pga <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> pga <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(</span>
-<span id="cb57-3">  <span class="at" style="color: #657422;
+<span id="cb45-3">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Distance_group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1304,7 +1261,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span>,</span>
-<span id="cb57-4">                             <span class="st" style="color: #20794D;
+<span id="cb45-4">                             <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1315,7 +1272,7 @@ background-color: null;
 font-style: inherit;">&lt;=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">296.63</span> </span>
-<span id="cb57-5">                             <span class="sc" style="color: #5E5E5E;
+<span id="cb45-5">                             <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&amp;</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -1332,7 +1289,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span>,</span>
-<span id="cb57-6">                             <span class="st" style="color: #20794D;
+<span id="cb45-6">                             <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1347,8 +1304,8 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span>),</span>
-<span id="cb57-7">  </span>
-<span id="cb57-8">  <span class="at" style="color: #657422;
+<span id="cb45-7">  </span>
+<span id="cb45-8">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Accuracy_group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1367,7 +1324,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span>,</span>
-<span id="cb57-9">                             <span class="st" style="color: #20794D;
+<span id="cb45-9">                             <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1378,7 +1335,7 @@ background-color: null;
 font-style: inherit;">&lt;=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">63.7</span> </span>
-<span id="cb57-10">                             <span class="sc" style="color: #5E5E5E;
+<span id="cb45-10">                             <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&amp;</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -1395,7 +1352,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span>,</span>
-<span id="cb57-11">                             <span class="st" style="color: #20794D;
+<span id="cb45-11">                             <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1410,8 +1367,8 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span>),</span>
-<span id="cb57-12">  </span>
-<span id="cb57-13">  <span class="at" style="color: #657422;
+<span id="cb45-12">  </span>
+<span id="cb45-13">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Irons_group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1430,7 +1387,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span>,</span>
-<span id="cb57-14">                          <span class="st" style="color: #20794D;
+<span id="cb45-14">                          <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1441,7 +1398,7 @@ background-color: null;
 font-style: inherit;">&lt;=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">78.34</span> </span>
-<span id="cb57-15">                          <span class="sc" style="color: #5E5E5E;
+<span id="cb45-15">                          <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&amp;</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -1458,7 +1415,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span>,</span>
-<span id="cb57-16">                          <span class="st" style="color: #20794D;
+<span id="cb45-16">                          <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1473,8 +1430,8 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span>),</span>
-<span id="cb57-17">  </span>
-<span id="cb57-18">  <span class="at" style="color: #657422;
+<span id="cb45-17">  </span>
+<span id="cb45-18">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Scrambling_group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1487,12 +1444,12 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span>,</span>
-<span id="cb57-19">                             Scrambling <span class="sc" style="color: #5E5E5E;
+<span id="cb45-19">                             Scrambling <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">60.3</span> </span>
-<span id="cb57-20">                             <span class="sc" style="color: #5E5E5E;
+<span id="cb45-20">                             <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&amp;</span> Scrambling <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1503,7 +1460,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span>,</span>
-<span id="cb57-21">                             Scrambling <span class="sc" style="color: #5E5E5E;
+<span id="cb45-21">                             Scrambling <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;</span> <span class="fl" style="color: #AD0000;
 background-color: null;
@@ -1512,8 +1469,8 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span>),</span>
-<span id="cb57-22">  </span>
-<span id="cb57-23">  <span class="at" style="color: #657422;
+<span id="cb45-22">  </span>
+<span id="cb45-23">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Putting_group =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1532,7 +1489,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"elite"</span>,</span>
-<span id="cb57-24">                            <span class="st" style="color: #20794D;
+<span id="cb45-24">                            <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1543,7 +1500,7 @@ background-color: null;
 font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">28.86</span> </span>
-<span id="cb57-25">                            <span class="sc" style="color: #5E5E5E;
+<span id="cb45-25">                            <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&amp;</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -1560,7 +1517,7 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"average"</span>,</span>
-<span id="cb57-26">                            <span class="st" style="color: #20794D;
+<span id="cb45-26">                            <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">`</span><span class="at" style="color: #657422;
 background-color: null;
@@ -1575,22 +1532,22 @@ background-color: null;
 font-style: inherit;">~</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"below average"</span>),</span>
-<span id="cb57-27">)</span>
-<span id="cb57-28"></span>
-<span id="cb57-29"><span class="co" style="color: #5E5E5E;
+<span id="cb45-27">)</span>
+<span id="cb45-28"></span>
+<span id="cb45-29"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># find how many shots each skill saves per round</span></span>
-<span id="cb57-30"><span class="co" style="color: #5E5E5E;
+<span id="cb45-30"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># subtract the median scoring avg of elite players from below avg players for each statistic</span></span>
-<span id="cb57-31">shots_saved <span class="ot" style="color: #003B4F;
+<span id="cb45-31">shots_saved <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> pga <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">summarise</span>(</span>
-<span id="cb57-32">  <span class="at" style="color: #657422;
+<span id="cb45-32">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Driving_Distance =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1611,7 +1568,7 @@ background-color: null;
 font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span></span>
-<span id="cb57-33">                          <span class="fu" style="color: #4758AB;
+<span id="cb45-33">                          <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">median</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1628,9 +1585,9 @@ background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>),</span>
-<span id="cb57-34">  </span>
-<span id="cb57-35">  </span>
-<span id="cb57-36">  <span class="at" style="color: #657422;
+<span id="cb45-34">  </span>
+<span id="cb45-35">  </span>
+<span id="cb45-36">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Driving_Accuracy =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1651,7 +1608,7 @@ background-color: null;
 font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span></span>
-<span id="cb57-37">                          <span class="fu" style="color: #4758AB;
+<span id="cb45-37">                          <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">median</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1668,9 +1625,9 @@ background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>),</span>
-<span id="cb57-38">  </span>
-<span id="cb57-39">  </span>
-<span id="cb57-40">  <span class="at" style="color: #657422;
+<span id="cb45-38">  </span>
+<span id="cb45-39">  </span>
+<span id="cb45-40">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Iron_Accuracy =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1691,7 +1648,7 @@ background-color: null;
 font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span></span>
-<span id="cb57-41">                          <span class="fu" style="color: #4758AB;
+<span id="cb45-41">                          <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">median</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1708,9 +1665,9 @@ background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>),</span>
-<span id="cb57-42">  </span>
-<span id="cb57-43">  </span>
-<span id="cb57-44">  <span class="at" style="color: #657422;
+<span id="cb45-42">  </span>
+<span id="cb45-43">  </span>
+<span id="cb45-44">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Scrambling =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1731,7 +1688,7 @@ background-color: null;
 font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span></span>
-<span id="cb57-45">                          <span class="fu" style="color: #4758AB;
+<span id="cb45-45">                          <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">median</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1748,9 +1705,9 @@ background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>),</span>
-<span id="cb57-46">  </span>
-<span id="cb57-47">  </span>
-<span id="cb57-48">  <span class="at" style="color: #657422;
+<span id="cb45-46">  </span>
+<span id="cb45-47">  </span>
+<span id="cb45-48">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">Putting =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1771,7 +1728,7 @@ background-color: null;
 font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span></span>
-<span id="cb57-49">                          <span class="fu" style="color: #4758AB;
+<span id="cb45-49">                          <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">median</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1788,17 +1745,17 @@ background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>)</span>
-<span id="cb57-50">)</span>
-<span id="cb57-51"></span>
-<span id="cb57-52"></span>
-<span id="cb57-53">shots_saved <span class="ot" style="color: #003B4F;
+<span id="cb45-50">)</span>
+<span id="cb45-51"></span>
+<span id="cb45-52"></span>
+<span id="cb45-53">shots_saved <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> shots_saved <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">pivot_longer</span>(</span>
-<span id="cb57-54">  <span class="at" style="color: #657422;
+<span id="cb45-54">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">cols =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1811,13 +1768,13 @@ background-color: null;
 font-style: inherit;">values_to =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Strokes_Saved"</span></span>
-<span id="cb57-55">  ) </span></code></pre></div></div>
+<span id="cb45-55">  ) </span></code></pre></div></div>
 </div>
 </section>
 <section id="so-what-matters-most" class="level1">
 <h1>So What Matters Most?</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1832,7 +1789,7 @@ background-color: null;
 font-style: inherit;">reorder</span>(Skill, Strokes_Saved))) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb58-2">  <span class="fu" style="color: #4758AB;
+<span id="cb46-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_segment</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1849,7 +1806,7 @@ background-color: null;
 font-style: inherit;">"#009E73"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb58-3">  <span class="fu" style="color: #4758AB;
+<span id="cb46-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1858,7 +1815,7 @@ background-color: null;
 font-style: inherit;">"#009E73"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb58-4">  <span class="fu" style="color: #4758AB;
+<span id="cb46-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_text</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1877,12 +1834,29 @@ background-color: null;
 font-style: inherit;">0.5</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb58-5">  <span class="fu" style="color: #4758AB;
+<span id="cb46-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_continuous</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">expansion</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mult =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.2</span>))) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb46-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb58-6">  <span class="fu" style="color: #4758AB;
+<span id="cb46-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1899,7 +1873,7 @@ background-color: null;
 font-style: inherit;">"Strokes Saved per Round"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb58-7">  <span class="fu" style="color: #4758AB;
+<span id="cb46-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_color_viridis_d</span>()</span></code></pre></div></div>
 <div class="cell-output-display">

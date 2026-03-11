@@ -14,3 +14,6 @@ in about.qmd
 * change links
 * change title
 * can change picture if you want
+
+in index.qmd
+* change title here too

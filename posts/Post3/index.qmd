@@ -28,6 +28,8 @@ pga <- pga |> filter(!is.na(`Scoring Average`))
 First, we will look at some data about Driving the Ball:
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = `Driving Distance`, y = `Scoring Average`)) +
   geom_point() +
   geom_smooth() +
@@ -38,6 +40,8 @@ ggplot(data = pga, aes(x = `Driving Distance`, y = `Scoring Average`)) +
 The first thing to look at in terms of Driving is how far you hit the ball. This plot shows that in general, the further you can hit the ball the lower you score. It's interesting however, the players who hit the ball less than 290 yards all seem to be around the same. However, once you get over that 290 yard threshold the further you hit it the better you score. This indicates for casual golfers who probably don't hit the ball as far as the pros, Driving distance isn't as important.
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = `Driving Accuracy Percentage`, y = `Scoring Average`)) +
   geom_point() +
   geom_smooth() +
@@ -50,6 +54,8 @@ The next thing we can look at in terms of Driving is the accuracy. Here we have 
 # Iron Play
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = `GIR Percentage from Fairway`, y = `Scoring Average`)) +
   geom_point() +
   geom_smooth() +
@@ -62,6 +68,8 @@ Now looking at irons. This plot is measuring the Green in Regulation percentage 
 # Short Game
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = `Putts Per Round`, y = `Scoring Average`)) +
   geom_point() +
   geom_smooth() +
@@ -72,6 +80,8 @@ ggplot(data = pga, aes(x = `Putts Per Round`, y = `Scoring Average`)) +
 Now moving onto short game, the first thing we can look at is putting. There seems to be a semi-strong relationship here. The more you have to putt, the higher you shoot. However, putting doesn't seem to have as much of an effect as iron play did. This is a little suprising to me, going into this I expected short game areas to have the most impact.
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = Scrambling, y = `Scoring Average`)) +
   geom_point() +
   geom_smooth() +
@@ -86,6 +96,8 @@ The second thing we can look at for short game is scrambling percentage. It look
 The next things we can explore with these 5 stats are how they separate Elite players, average players, and below average players(in terms of the PGA Tour). To do this I am going to split the data into 3 groups. The top 1/3 in scoring average, the middle 1/3, and the bottom 1/3.
 
 ```{r}
+#| message: false
+#| warning: false
 # get the thresholds
 quantile(pga$`Scoring Average`, probs = c(1/3, 2/3), na.rm = TRUE)
 
@@ -101,6 +113,8 @@ pga <- pga |> arrange(`Scoring Average`) |>
 # Driving
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = group, y = `Driving Distance`, fill = group)) +
   geom_boxplot() +
   scale_fill_manual(values = c(
@@ -116,6 +130,8 @@ ggplot(data = pga, aes(x = group, y = `Driving Distance`, fill = group)) +
 Looking at driving distance again, the drop offs from elite to average to below average are all pretty similar. This plot further supports the idea that driving distance has an strong effect on scoring average. The best players hit the ball farther than the others.
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = group, y = `Driving Accuracy Percentage`, fill = group)) +
   geom_boxplot() +
   scale_fill_manual(values = c(
@@ -133,6 +149,8 @@ Similar to the scatterplots, driving accuracy doesn't seem to have as much of an
 # Iron Play
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = group, y = `GIR Percentage from Fairway`, fill = group)) +
   geom_boxplot() +
   scale_fill_manual(values = c(
@@ -150,6 +168,8 @@ Iron play also has similar drop offs. Much like the scatterplot showed, it seems
 # Short Game
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = group, y = Scrambling, fill = group)) +
   geom_boxplot() +
   scale_fill_manual(values = c(
@@ -165,6 +185,8 @@ ggplot(data = pga, aes(x = group, y = Scrambling, fill = group)) +
 Scrambling also seems to have pretty stead drop offs. It seems like the best players can scramble around the greens. Similarly to what the scatterplot showed, scrambling seems to have a big impact.
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = pga, aes(x = group, y = `Putts Per Round`, fill = group)) +
   geom_boxplot() +
   scale_fill_manual(values = c(
@@ -186,6 +208,8 @@ We can keep the idea of grouping players into 3 groups, but this time we can do 
 # Strokes Saved
 
 ```{r}
+#| message: false
+#| warning: false
 # get the thresholds for each stat
 quantile(pga$`Driving Distance`, probs = c(1/3, 2/3), na.rm = TRUE)
 quantile(pga$`Driving Accuracy Percentage`, probs = c(1/3, 2/3), na.rm = TRUE)
@@ -253,6 +277,8 @@ shots_saved <- shots_saved |> pivot_longer(
 # So What Matters Most?
 
 ```{r}
+#| message: false
+#| warning: false
 ggplot(data = shots_saved, aes(x = Strokes_Saved, y = reorder(Skill, Strokes_Saved))) +
   geom_segment(aes(xend = 0, yend = Skill), color = "#009E73") +
   geom_point(color = "#009E73") +
